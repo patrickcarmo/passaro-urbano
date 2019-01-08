@@ -9,7 +9,7 @@ import { map, retry } from 'rxjs/operators';
 @Injectable()
 export class OfertasService {
     
-    constructor(private http: Http) {}
+    constructor(private http: Http) { }
 
     getOfertas(): Promise<Oferta[]> {
         return this.http.get(`${URL_API}/ofertas?destaque=true`)
