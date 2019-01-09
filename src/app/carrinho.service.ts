@@ -10,7 +10,7 @@ export class CarrinhoService {
     }
 
     getItemCarrinhoById(id: number): ItemCarrinho {
-        return this.itens.find((item: ItemCarrinho) => item.id === item.id);
+        return this.itens.find((item: ItemCarrinho) => item.id === id);
     }
 
     incluirItem(oferta: Oferta): void {
@@ -47,6 +47,10 @@ export class CarrinhoService {
                 this.itens.splice(this.itens.indexOf(itemCarrinhoEncontrado), 1);
             }
         }
-	}
+    }
+    
+    limparCarrinho(): void {
+        this.itens = [];
+    }
 
 }

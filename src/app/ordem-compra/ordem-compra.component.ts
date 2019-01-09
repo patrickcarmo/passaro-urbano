@@ -42,24 +42,30 @@ export class OrdemCompraComponent implements OnInit {
 	public confirmarCompra(): void {
 		const { status, controls, value } = this.formulario;
 		if (status === "INVALID") {
-			console.log("formulário está inválido");
 			for (const input in controls) {
 				if (controls[input].invalid) {
 					controls[input].markAsTouched();
 				}
 			}
 		} else {
-			const pedido: Pedido = new Pedido(
-				value.endereco,
-				value.numero,
-				value.complemento,
-				value.formaPagamento
-			);
-			this.ordemCompraService
-				.efetivarCompra(pedido)
-				.subscribe((idPedido: number) => {
-					this.idPedidoCompra = idPedido;
-				});
+			if (this.carrinhoService.exibirItens().length) {
+				const pedido: Pedido = new Pedido(
+					value.endereco,
+					value.numero,
+					value.complemento,
+					value.formaPagamento,
+					this.carrinhoService.exibirItens()
+					
+				);
+				this.ordemCompraService
+					.efetivarCompra(pedido)
+					.subscribe((idPedido: number) => {
+						this.idPedidoCompra = idPedido;
+						this.carrinhoService.limparCarrinho();
+					});
+			} else {
+				alert("Você não selecionou nenhum item!");
+			}			
 		}
 	}
 
